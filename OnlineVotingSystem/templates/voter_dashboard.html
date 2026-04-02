@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voter Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Online Voting System</a>
+            <div class="ms-auto">
+                <span class="navbar-text text-white me-3">Welcome, {{ session['voter'] }}</span>
+                <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 text-primary">Cast Your Vote</h2>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-info text-center">
+            {% for msg in messages %}
+              {{ msg }}
+            {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="row justify-content-center">
+
+            <!-- Priya Verma (BJP) -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm text-center">
+                    <!-- Candidate Photo -->
+                    <img src="{{ url_for('static', filename='priya_verma.jpg') }}" 
+                         class="card-img-top" alt="Priya Verma" style="height:250px; object-fit:cover;">
+                    <div class="card-body">
+                        <h4 class="card-title">Priya Verma</h4>
+                        <!-- Party Logo -->
+                        <p class="card-text">
+                            <img src="{{ url_for('static', filename='bjp_logo.png') }}" 
+                                 alt="BJP Logo" style="height:30px; vertical-align:middle;"> BJP
+                        </p>
+                        {% if not session.get('voter_voted') %}
+                        <a href="{{ url_for('vote', candidate_id=1) }}" class="btn btn-success">Vote</a>
+                        {% else %}
+                        <button class="btn btn-secondary" disabled>Already Voted</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sheetal Yadav (Congress) -->
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm text-center">
+                    <!-- Candidate Photo -->
+                    <img src="{{ url_for('static', filename='sheetal_yadav.jpg') }}" 
+                         class="card-img-top" alt="Sheetal Yadav" style="height:250px; object-fit:cover;">
+                    <div class="card-body">
+                        <h4 class="card-title">Sheetal Yadav</h4>
+                        <!-- Party Logo -->
+                        <p class="card-text">
+                            <img src="{{ url_for('static', filename='congress_logo.png') }}" 
+                                 alt="Congress Logo" style="height:30px; vertical-align:middle;"> Congress
+                        </p>
+                        {% if not session.get('voter_voted') %}
+                        <a href="{{ url_for('vote', candidate_id=2) }}" class="btn btn-success">Vote</a>
+                        {% else %}
+                        <button class="btn btn-secondary" disabled>Already Voted</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 py-3 bg-dark text-white">
+        &copy; 2025 Online Voting System | Candidates: Priya Verma & Sheetal Yadav
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

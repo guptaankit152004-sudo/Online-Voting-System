@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Election Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 text-primary">Election Results</h2>
+
+    {% set max_votes = candidates | map(attribute='votes') | max %}
+    <div class="row justify-content-center">
+        {% for candidate in candidates %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm text-center {% if candidate.votes == max_votes %}border-success{% endif %}">
+                <img src="{{ url_for('static', filename=candidate.photo) }}" class="card-img-top" alt="{{ candidate.name }}" style="height:250px; object-fit:cover;">
+                <div class="card-body">
+                    <h4 class="card-title">{{ candidate.name }}</h4>
+                    <p class="card-text">Party: {{ candidate.party }}</p>
+                    <p class="card-text fw-bold">Votes: {{ candidate.votes }}</p>
+                    {% if candidate.votes == max_votes %}
+                        <span class="badge bg-success">Winner</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<footer class="text-center mt-5 py-3 bg-dark text-white">
+    &copy; 2025 Online Voting System
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
